@@ -110,24 +110,27 @@ def getRepoPulls(repo, kwargs):
                     final_array[364-day] += 1
 
 
-#SIGN IN TO GET AUTH
-print("please sign in to authenticate")
-username = raw_input("username: ")
-password = getpass.getpass("password: ")
-creds = {'username':username, 'password':password}
+def contributions_tool():
+    print("please sign in to authenticate")
+    username = raw_input("username: ")
+    password = getpass.getpass("password: ")
+    creds = {'username':username, 'password':password}
 
 
-#Get list of user repos
-repos = getUserRepos(creds)
-for repo in repos:
-    issues_thread = Thread(target = getRepoIssues, args = (repo, creds, ))
-    issues_thread.start()
-    commits_thread = Thread(target = getRepoCommits, args = (repo, creds, ))
-    commits_thread.start()
-    pulls_thread = Thread(target = getRepoPulls, args = (repo, creds, ))
-    pulls_thread.start()
-    issues_thread.join()
-    commits_thread.join()
-    pulls_thread.join()
+    #Get list of user repos
+    repos = getUserRepos(creds)
+    for repo in repos:
+        issues_thread = Thread(target = getRepoIssues, args = (repo, creds, ))
+        issues_thread.start()
+        commits_thread = Thread(target = getRepoCommits, args = (repo, creds, ))
+        commits_thread.start()
+        pulls_thread = Thread(target = getRepoPulls, args = (repo, creds, ))
+        pulls_thread.start()
+        issues_thread.join()
+        commits_thread.join()
+        pulls_thread.join()
 
-print(final_array)
+    return final_array
+
+print(contributions_tool())
+
